@@ -1,0 +1,32 @@
+name: deploy password generator
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    run-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: nodejs
+        uses: actions/steup-node@v4
+        with:  
+          node-versions: '20'
+
+      - name: install dependencie
+        uses: npm install
+        
+      - name: build the project
+        uses: npm run build
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
